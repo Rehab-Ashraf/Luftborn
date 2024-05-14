@@ -1,0 +1,158 @@
+<div HotelReservationAPPRtl [ngClass]="{'active': activeClass==true }" id="sideBarMenu" class="menu">
+  <a (click)="mouseenter()" id="close-menu" class="close-arrow">
+    <i class="fa-solid fa-arrow-right"></i>
+  </a>
+  <ul class="menu-dropdown gap-10 scrollbar-ff">
+    <li class="d-flex gap-15 align-items-center mx-auto">
+      <img src="../../../../../../assets/media/hotel-bell.png" class="logo-shape">
+      <a   class="logotype">
+        <img src="../../../../../../assets/media/hotel-bell.png" alt="img" width="120" />
+      </a>
+    </li>
+    <li class="profile-nav">
+      <div class="media profile-media">
+        <img *ngIf="!currentUser?.profileImage" src="./assets/media/user-default.png" (click)="viewUser()" alt="img" class="ml-2 rounded-circle" />
+        <img *ngIf="currentUser?.profileImage" [src]="domainUrl+currentUser?.profileImage" (click)="viewUser()" alt="img" width="40" height="40" class="ml-2 rounded" />
+        <div class="media-body">
+          <a class="mb-0" *ngIf="languageService.getLanguage=='ar'"> {{currentUser?.nameAr}} </a>
+          <a class="mb-0" *ngIf="languageService.getLanguage=='en'"> {{currentUser?.nameEn}} </a>
+          <p> {{currentUser?.roleName}} </p>
+        </div>
+      </div>
+    </li>
+    <li class="" *ngFor="let item of navList; let i = index">
+      <ng-container *ngIf="item.childs!= null">
+        <ng-container *ngIf="showParentActivate(item.childs)">
+          <div id="nested-menu" class="nested-menu" [ngClass]="{ 'active': item.activeClass == true }">
+            <a (click)="item.activeClass=!item.activeClass;activeClass=true; openMenu();" class="nested-menu-btn d-flex align-items-center gap-2" [ngClass]="{ 'active': item.activeClass == true }" title="{{ item.title | translate }}">
+              <span *ngIf="item && item.icon" class="ico">
+                <span [class]="'icon ' + item.icon"></span>
+              </span>
+              <span *ngIf="item && item.img" class="ico">
+                <img [src]="item.img" class="icon-img">
+              </span>
+
+              <span class="text"> {{ item.title | translate }}</span>
+              <i class="fa-solid fa-angle-right ms-auto"></i>
+              <div class="overlay"></div>
+            </a>
+            <div class="nested-menu-content">
+              <ng-container *ngFor="let subItem of item.childs; let j = index">
+                <ng-container *ngIf="subItem.childs.length == 0">
+                  <a [routerLink]="[subItem.link]" (click)="onMenuItemContainerClick(item)" routerLinkActive="active-nested-item" class="child" title="{{ subItem.title | translate }}">
+                    <span><i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                    </span>
+                    <span *ngIf="item && subItem.icon" class="ico">
+                      <span [class]="'icon ' + subItem.icon"></span>
+                    </span>
+                    <span *ngIf="item && subItem.img" class="ico">
+                      <img [src]="subItem.img" class="icon-img">
+                    </span>
+                    <span>{{ subItem.title | translate }}</span>
+                  </a>
+                </ng-container>
+                <ng-container *ngIf="subItem.childs!= null">
+                  <ng-container *ngIf="showParentActivate(subItem.childs)">
+                    <div id="nested-menu" class="nested-menu" [ngClass]="{ 'active': subItem.activeClass == true }">
+                      <a (click)="subItem.activeClass=!subItem.activeClass;activeChildClass=true; openChildMenu();" class="nested-menu-btn d-flex align-items-center gap-2" [ngClass]="{ 'active': subItem.activeClass == true }" title="{{ subItem.title | translate }}">
+                        <span [class]="'icon ' + subItem.icon"></span>
+                        <span class="text"> {{ subItem.title | translate }}</span>
+                        <i class="fa-solid fa-angle-right ms-auto"></i>
+                        <div class="overlay"></div>
+                      </a>
+                      <div class="nested-menu-content">
+                        <ng-container *ngFor="let thirdItem of subItem.childs; let k = index">
+                          <!--  <ng-container>
+                                <a [routerLink]="[thirdItem.link]" (click)="onMenuSubItemContainerClick(item,subItem)" routerLinkActive="active-nested-item" class="child" title="{{ thirdItem.title | translate }}">
+                                  <span>-</span>
+                                  <span>{{ thirdItem.title | translate }}</span>
+                                </a>
+                              </ng-container> -->
+                          <ng-container *ngIf="thirdItem.childs.length == 0">
+                            <a [routerLink]="[thirdItem.link]" (click)="onMenuSubItemContainerClick(item,subItem)" routerLinkActive="active-nested-item" class="child" title="{{ thirdItem.title | translate }}">
+                              <span><i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                              </span>
+                              <span>{{ thirdItem.title | translate }}</span>
+                            </a>
+                          </ng-container>
+                          <ng-container *ngIf="thirdItem.childs!= null">
+                            <ng-container *ngIf="showParentActivate(thirdItem.childs)">
+                              <div id="nested-menu" class="nested-menu" [ngClass]="{ 'active': thirdItem.activeClass == true }">
+                                <a (click)="thirdItem.activeClass=!thirdItem.activeClass;activeChild2Class=true; openChild2Menu();" class="nested-menu-btn d-flex align-items-center gap-2" [ngClass]="{ 'active': thirdItem.activeClass == true }" title="{{ thirdItem.title | translate }}">
+                                  <span [class]="'icon ' + thirdItem.icon"></span>
+                                  <span class="text"> {{ thirdItem.title | translate }}</span>
+                                  <i class="fa-solid fa-angle-right ms-auto"></i>
+                                  <div class="overlay"></div>
+                                </a>
+                                <div class="nested-menu-content">
+                                  <ng-container *ngFor="let fourthItem of thirdItem.childs; let h = index">
+                                    <ng-container>
+                                      <a [routerLink]="[fourthItem.link]" (click)="onMenuThirdItemContainerClick(item,subItem,thirdItem)" routerLinkActive="active-nested-item" class="child" title="{{ fourthItem.title | translate }}">
+                                        <span><i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                                        </span>
+                                        <span>{{ fourthItem.title | translate }}</span>
+                                      </a>
+                                    </ng-container>
+                                  </ng-container>
+                                </div>
+                              </div>
+                            </ng-container>
+                          </ng-container>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="item.childs.length == 0">
+        <div class="nested-menu" [ngClass]="{ 'active': item.activeClass == true }">
+          <ng-container>
+            <a class="nested-menu-btn d-flex align-items-center gap-2" (click)="onMenuItemContainerClick(item)" [routerLink]="[item.link]" routerLinkActive="active-nested-item" title="{{ item.title | translate }}">
+              <!--               <span [class]="'icon ' + item.icon"></span>
+     --> <img [src]="item.img" class="icon-img">
+              <span class="text">{{ item.title | translate }}</span>
+              <div class="overlay"></div>
+            </a>
+          </ng-container>
+        </div>
+      </ng-container>
+    </li>
+    <!--  <li class="" *ngFor=" let item of navList; let i = index">
+      <ng-container *ngIf="item.childs!=null">
+        <ng-container *ngIf="showParentActivate(item.childs)">
+          <div  (mouseenter)="item.activeClass=true" (mouseleave)="item.activeClass=false" id="nested-menu" class="nested-menu" [ngClass]="{'active': item.activeClass==true }">
+            <a (click)="item.activeClass=!item.activeClass;activeClass=true; openMenu();" class="nested-menu-btn d-flex align-items-center gap-2" [ngClass]="{'active': item.activeClass==true }" title="{{ item.title | translate }}">
+              <i class="{{ item.icon }}"></i>
+              <span class="text"> {{ item.title | translate }}</span>
+              <i class="fa-solid fa-angle-right ms-auto"></i>
+            </a>
+            <div class="nested-menu-content">
+              <ng-container *ngFor="let subItem of item.childs; let j = index">
+                <ng-container *ngIf="adminGuard.showActivate(subItem.data)">
+                  <a [routerLink]="[subItem.link]" title="{{ subItem.title | translate }}">
+                    <i class="{{ subItem.icon }}"></i> <span>{{ subItem.title | translate }}</span> </a>
+                </ng-container>
+              </ng-container>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="item.childs.length==0">
+        <div id="nested-menu" [ngClass]="{'active': item.activeClass==true }">
+          <div>
+            <ng-container>
+              <ng-container *ngIf="adminGuard.showActivate(item.data)">
+                <a class="nested-menu-btn d-flex align-items-center gap-2" [routerLink]="[item.link]" title="{{ item.title | translate }}">
+                  <i class="{{ item.icon }}"></i> <span>{{ item.title | translate }}</span> </a>
+              </ng-container>
+            </ng-container>
+          </div>
+        </div>
+      </ng-container>
+    </li> -->
+  </ul>
+</div>

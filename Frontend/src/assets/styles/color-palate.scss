@@ -1,0 +1,38 @@
+$main-color1: #075488;
+$d-main-color1: #064b78;
+$main-color2: #e3e3e3;
+$main-color3: #ababab;
+$main-color4: #343434;
+$main-color5: #f7f7f7;
+$red-color: #bb2d3b;
+$green-color: #1c973f;
+$dark-main: #0680d0;
+
+$color1: #001428;
+$color2: #1a406d;
+$color3: #385b8a;
+$color4: #2e7ac5;
+$color5: #cbe4fa;
+$color6: #8794aa;
+$color7: #dadde3;
+$color8: #d8dfe9;
+$color9: #f5f7f9;
+
+$text-body: #656565;
+$text-main: #656565;
+$gray-color-1: #6a6565;
+$white: #ffffff;
+$black: #000000;
+$border-color: #dcdcdc;
+$font-family-SFP-R: 'SFP-R', sans-serif;
+
+
+
+$gradient-main: linear-gradient(to right bottom, #1a406d, #2e7ac5);
+$gradient-main-r: linear-gradient(to left bottom, #075488, #0680d0);
+
+::ng-deep {
+    [dir='rtl']  {
+        $font-family-SFP-R: 'cairo', sans-serif !important;
+    }
+}

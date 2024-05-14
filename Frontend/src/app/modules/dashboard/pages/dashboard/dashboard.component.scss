@@ -1,0 +1,119 @@
+h5{
+  color: #1E3F6C;
+  .corben-text{
+    font-family: 'corben';
+  }
+}
+.header-card h2
+{
+    margin-top: 10px;
+    font-size: 20px;
+    color: hsl(215deg 57% 27%);
+    font-weight: 700;
+    position: relative;
+    font-weight: 400;
+}
+.card.main-card {
+  box-shadow: none;
+  padding: 10px 0;
+}
+
+.progress {
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  border-radius: 8px;
+  height: 8px
+}
+
+.progress .progress-bar {
+  line-height: 8px;
+  background-color: #1f91f3
+}
+
+.progress .progress-bar-success {
+  background-color: #2b982b
+}
+
+.progress .progress-bar-info {
+  background-color: #00b0e4
+}
+
+.progress .progress-bar-warning {
+  background-color: #ff9600
+}
+
+.progress .progress-bar-danger {
+  background-color: #fb483a
+}
+.card {
+  background: #fff;
+  transition: .5s;
+  border: 0;
+  border-radius: 12px;
+  position: relative;
+  width: 100%;
+  box-shadow: none;
+}
+.card .header {
+  padding-left: 45px !important;
+      background-color: transparent;
+}
+.card .header .header-dropdown {
+  position: absolute;
+  top: 14px;
+  right: 20px;
+  list-style: none;
+}
+.card .header .header-dropdown li {
+  margin-top: -16px;
+  display: inline-block;
+  font-weight: 700;
+}
+.box-ds {
+  width: 60px;
+  height: 60px;
+  /* margin-bottom: 10px;*/
+  margin: 20px auto 10px;
+  position: relative;
+}
+
+.box-ds .online,
+.box-ds .offline {
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  background-color: #02B509;
+  border-radius: 100px;
+  margin-right: 10px;
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.box-ds .offline {
+  background-color: #F53C56;
+}
+
+.box-ds i {
+  font-size: 34px;
+}
+.card.main-card .body .text-small {
+  font-size: 16px;
+  line-height: 18px;
+  color: #1E3F6C;
+  font-weight: 800;
+  margin-bottom: 5px
+}
+
+.card.main-card .body .total-revenue {
+  font-size: 14px;
+  color: #2B78C8;
+  font-weight: 600;
+}
+.l-amber, .w_calender span+span, .w_calender em {
+  background: linear-gradient(45deg, #2B78C8, #2B78C8) !important;
+  color: #fff !important;
+}
+

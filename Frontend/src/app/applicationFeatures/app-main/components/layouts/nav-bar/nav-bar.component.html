@@ -1,0 +1,101 @@
+<!-- Nav Bar -->
+<div HotelReservationAPPRtl id="header" class="row p-2 header ">
+  <div class="col-md-4 mb-3 mb-md-0 d-flex gap-10">
+    <!--  <img *ngIf="!currentUser?.organizationImage" src="./assets/media/engage_logo.png" alt="img" width="65" height="65" class="ml-2 logo-header rounded" />
+    <img *ngIf="currentUser?.organizationImage" [src]="domainUrl+currentUser?.organizationImage" alt="img" width="65" height="65" class="ml-2 logo-header rounded" />
+    <div>
+      <h5 class="text-black mt-2  fw-bold"> {{"shared.goodmorning"|translate}} {{currentUser?.name}} </h5>
+      <p class=" mb-0  f-7"> {{"shared.navbarHeader"|translate}} </p>
+    </div> -->
+    <form class="search-input">
+      <input type="text" class="" name="product_name" id="product_name" placeholder="Search here...">
+    </form>
+  </div>
+  <div class="col-md-8">
+    <ul class="nav-right">
+      <li>
+        <a class="lang" *ngIf="languageService.getLanguage=='en'" (click)="changeLang('ar')">
+          <span>العربية</span>
+        </a>
+        <a class="lang" *ngIf="languageService.getLanguage=='ar'" (click)="changeLang('en')">
+          <span>English</span>
+        </a>
+      </li>
+      <!--   <li class="nav-icon" #NotificationPill>
+        <div class="dropdown dropdown-toggle dropdown-main notification-container" type="button" data-bs-toggle="dropdown" aria-expanded="false" (click)="addActiveNotification(NotificationPill)" id="NotificationPill">
+
+          <i class="fa-solid fa-bell"></i>
+          <span class="notification-count" *ngIf="UnSeenNotifications" severity="danger">{{UnSeenNotifications}}</span>
+          <div class="dropdown-menu overflow-x-hidden fixed-height-500 p-3 min-width-300 ">
+            <a routerLink="{{item.url}}" class="notification-item" *ngFor="let item of notifications?.collection">
+              <div>
+                <h6 class="mb-1 color-black">{{item.notTitleEn}}</h6>
+                <p class="text-truncate max-380 m-0">{{item.notBodyEn}}</p>
+                <div class="d-flex">
+                  <small></small>
+                  <small>{{item.creationDate|date}}</small>
+                </div>
+              </div>
+            </a>
+          </div>
+
+        </div>
+      </li> -->
+      <!-- <li class="nav-icon noti" #NotificationPill (click)="addActiveNotification(NotificationPill)">
+        <div class="dropdown dropdown-main notification-container" id="NotificationPill">
+          <a class="dropdown-toggle " type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-bell"></i>
+            <span class="notification-count" *ngIf="UnSeenNotifications" severity="danger">{{UnSeenNotifications}}</span>
+            <div class="dropdown-menu overflow-x-hidden fixed-height-500 p-3 min-width-300 ">
+              <a href="{{item.url}}" class="notification-item" (click)="seenNotification(item)" *ngFor="let item of notifications?.collection">
+                <div>
+                  <h6 class="mb-1 color-black">{{item.notTitleEn}}</h6>
+                  <p class="text-truncate max-380 m-0">{{item.notBodyEn}}</p>
+                  <div class="d-flex justify-content-between">
+                    <small></small>
+                    <small>{{item.creationDate|date}}</small>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </a>
+        </div>
+      </li> -->
+      <!--   <li class="profile-nav">
+        <div class="media profile-media">
+          <a><img *ngIf="!currentUser?.profileImage" src="./assets/media/user-default.png" (click)="viewUser()" alt="img" width="40" height="40" class="ml-2 rounded" /></a>
+          <img *ngIf="currentUser?.profileImage" [src]="domainUrl+currentUser?.profileImage" (click)="viewUser()" alt="img" width="40" height="40" class="ml-2 rounded" />
+          <div class="media-body">
+            <h5 class="mb-0" *ngIf="languageService.getLanguage=='ar'"> {{currentUser?.nameAr}} </h5>
+            <h5 class="mb-0" *ngIf="languageService.getLanguage=='en'"> {{currentUser?.nameEn}} </h5>
+               <span> {{currentUser?.roleName}} </span>
+          </div>
+        </div>
+      </li>  -->
+      <li class="nav-icon last-nav-icon">
+        <a data-bs-toggle="modal" data-bs-target="#logOutModel">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" data-bs-backdrop="static" id="logOutModel" tabindex="-1" aria-labelledby="deleteModelLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-13 text-center">
+          <h5 class="text-black"> {{ "shared.logOutMessage" | translate }} </h5>
+        </div>
+      </div>
+      <div class="modal-footer border-0 mx-auto">
+        <button type="button" class="morelight-btn" data-bs-dismiss="modal">{{"shared.cancel"|translate}}</button>
+        <button type="button" class="btn main-btn" data-bs-dismiss="modal" (click)="userLogout()">{{"shared.logOut"|translate}}</button>
+      </div>
+    </div>
+  </div>
+</div>

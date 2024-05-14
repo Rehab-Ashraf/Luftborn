@@ -1,0 +1,73 @@
+<section  HotelReservationRtl class="login">
+  <div class="login-content">
+
+
+    <div class="container-fluid">
+      <div class="row login-side">
+        <div class="col-md-12 mx-auto">
+          <div class="login-side">
+
+              <div  class="col-md-6">
+                <div  class="text-center">
+                  <img  src="../../../../../assets/media/reception.png" alt="" width="270">
+                  <p  class="text-white mt-2">An Elite Hotel Reservation Booking Experience</p>
+                </div>
+              </div>
+
+          <div class="col-md-6">
+              <div class="form-login">
+                    <div class="login-box">
+
+                <form [formGroup]="loginForm" (keyup.enter)="submit()" class="">
+                    <div class="loginas"><img src="../../../../../assets/media/nav/blue-doctor-0.svg" alt="" width="50" />
+                      <p> Hotel Reservation</p>
+                    </div>
+                  <h4 class=" mb-4">{{"login.Title"| translate}}</h4>
+                  <div class="mb-3">
+                    <input type="email" class="form-control" id="username" formControlName="username" placeholder="{{'shared.email'|translate}}" />
+                    <app-control-error-display [control]="getControl('username')">
+                    </app-control-error-display>
+                  </div>
+                  <div class="mb-3">
+                    <div class="position-relative">
+                      <input [type]="hidePassword ? 'password' : 'text'" formControlName="password" class="form-control" id="loginPassword" placeholder="{{'shared.password'|translate}}" />
+                      <span (click)="hidePasswordIcon()" class="show-pass">
+                        <div *ngFor="let i of ChangeDetictionForceUpdateVar">
+                          <i [ngClass]="hidePassword ?'fa fa-eye':'fa fa-eye-slash '"></i>
+                        </div>
+                      </span>
+                    </div>
+                    <app-control-error-display [control]="getControl('password')">
+                    </app-control-error-display>
+                  </div>
+
+                <div class="row mb-4">
+                  <div class="col-6 ">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                      <label class="form-check-label" for="flexSwitchCheckDefault">Remember My Password</label>
+                    </div>
+                  </div>
+                  <div class="col-6 text-end">
+                    <a data-bs-toggle="modal" data-bs-target="#forget-password" class="link-pass">{{"User.forgetPassword"| translate }}</a>
+                  </div>
+                </div>
+                  <button type="button" (click)="submit()" class="btn">{{"login.Title"| translate }} </button>
+                  <br>
+                  <p class=" join">
+                    {{"User.account"| translate }}
+                    <a routerLink="/signup">{{"User.register"| translate }}</a>
+                  </p>
+                </form>
+                </div>
+              </div>
+          </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+

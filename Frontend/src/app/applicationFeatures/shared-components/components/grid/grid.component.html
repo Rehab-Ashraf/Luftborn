@@ -1,0 +1,234 @@
+<div class="grid-wrapper w-100 new-grid">
+  <div class="w-100 fixed-height-table">
+    <group-by-menu
+      id="GroupingMenu"
+      [ngClass]="{ active: showGroupMenu }"
+      [columns]="groupColumnsOptions"
+      [selectedCol]="selectedGroupByCol"
+      (changed)="onGroupByChanged($event)"></group-by-menu>
+
+    <ng-container *ngIf="dataList">
+      <p-table
+        #ADVGrid
+        [value]="dataList"
+        [paginator]="paginator"
+        [rows]="pageSize"
+        [rowsPerPageOptions]="rowsPerPageOptions"
+        [responsive]="responsive"
+        [totalRecords]="totalRecordsLength"
+        [styleClass]="styleClass"
+        [lazy]="true"
+        [currentPageReportTemplate]="currentPageReportTemplate"
+        [showCurrentPageReport]="true"
+        [selectionPageOnly]="true"
+        [scrollable]="true"
+        [sortMode]="sortable ? 'multiple' : ''"
+        [dataKey]="recordKey"
+        [(selection)]="selectedRecords"
+        (onFilter)="onFilterChange($event)"
+        (onPage)="onPageChange($event)"
+        (onSort)="onSort($event)"
+        (selectionChange)="onSelectionChange($event)">
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="check-box-header" *ngIf="canSelect" scope="checkbox">
+              <p-tableHeaderCheckbox
+                *ngIf="viewMood === TableViewMood.RecordsView"
+                id=""></p-tableHeaderCheckbox>
+            </th>
+            <th
+              id=""
+              [ngClass]="{
+                'd-none': col.hidden,
+                'hide-sort': col.removeSorting
+              }"
+              [ngStyle]="{
+                width: col.width
+                  ? 'calc(100% / ' + columns.length + ' * ' + col.width + ')'
+                  : 'calc(100% / ' + columns.length + ')',
+                minWidth: col.minWidth
+              }"
+              *ngFor="let col of columns; trackBy: trackByIndex"
+              [scope]="col.field"
+              [pSortableColumn]="col.field">
+              <p-sortIcon
+                *ngIf="!col.removeSorting"
+                [field]="col.field"></p-sortIcon>
+              {{ col.name | translate }}
+              <p-columnFilter
+                *ngIf="col.type !== TableHeaderType.Enum && !col.removeFlitter"
+                [type]="col.type!"
+                [field]="col.field"
+                [placeholder]="col.name | translate"
+                display="menu"></p-columnFilter>
+              <ngx-enum-filter
+                *ngIf="col.type === TableHeaderType.Enum && !col.removeFlitter"
+                [enum]="col.enum"
+                [field]="col.field"
+                [column]="col.name"
+                (filterMetadata)="onFilterChange($event)"></ngx-enum-filter>
+            </th>
+            <th
+              class="action-header justify-content-center action"
+              *ngIf="actions.length"
+              [scope]="'actions'">
+              {{ 'shared.action' | translate }}
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData>
+          <ng-container
+            *ngTemplateOutlet="
+              viewMood === TableViewMood.RecordsView ? recordsView : treeView;
+              context: { $implicit: rowData }
+            "></ng-container>
+        </ng-template>
+
+        <ng-template #treeView let-rowData>
+          <tr class="group-row">
+            <td
+              [class]="'w-100 ' + 'level-' + rowData.index"
+              colspan="999"
+              (click)="rowData.isExpanded = !rowData.isExpanded">
+              <i *ngIf="rowData.isExpanded" class="pi pi-angle-down"></i>
+              <i *ngIf="!rowData.isExpanded" class="pi pi-angle-right"></i>
+
+              <span class="key-name">
+                {{ rowData['key'] }} - ( {{ rowData['count'] }} )
+              </span>
+            </td>
+          </tr>
+          <ng-container *ngIf="rowData.isExpanded">
+            <ng-container
+              *ngFor="let item of rowData['items']; trackBy: trackByIndex">
+              <ng-container
+                *ngTemplateOutlet="
+                  item['key'] ? treeView : recordsView;
+                  context: { $implicit: item }
+                "></ng-container>
+            </ng-container>
+          </ng-container>
+        </ng-template>
+
+        <ng-template #recordsView let-rowData>
+          <tr>
+            <td *ngIf="canSelect" class="check-box-header">
+              <p-tableCheckbox
+                [id]="rowData.id"
+                [value]="rowData"></p-tableCheckbox>
+            </td>
+            <td
+              *ngFor="let col of columns; trackBy: trackByIndex"
+              [ngClass]="{ 'd-none': col.hidden }"
+              [ngStyle]="{
+                width: col.width
+                  ? 'calc(100% / ' + columns.length + ' * ' + col.width + ')'
+                  : 'calc(100% / ' + columns.length + ')',
+                minWidth: col.minWidth
+              }">
+              <div [ngSwitch]="col.type">
+                <span *ngSwitchCase="TableHeaderType.Enum">{{
+                  col.field +
+                    '.' +
+                    getEnumKeyByEnumValue(col.enum, rowData[col.field])
+                    | translate
+                }}</span>
+
+                <!-- Number template -->
+                <span *ngSwitchCase="TableHeaderType.Numeric">
+                  <ng-container
+                    *ngIf="
+                      rowData[col.field]?.length > 1000;
+                      else normalNumerical
+                    ">
+                    {{ rowData[col.field] | number: '1.2-2' }}
+                  </ng-container>
+                  <ng-template #normalNumerical>
+                    {{ rowData[col.field] }}
+                  </ng-template>
+                </span>
+                  <!-- Number State -->
+                  <span *ngSwitchCase="TableHeaderType.Rating">
+                    <em class="rate" *ngIf="rowData[col.field] === 0">
+                      {{ col.extraData?.oneStar | translate }}
+                      <img src="../../../../../assets/media/rate/noStars.png">
+                    </em>
+                    <em class="rate" *ngIf="rowData[col.field] === 1">
+                      {{ col.extraData?.oneStar | translate }}
+                      <img src="../../../../../assets/media/rate/oneStar.png">
+                    </em>
+                    <em class="rate" *ngIf="rowData[col.field] === 2">
+                      {{ col.extraData?.threeStars | translate }}
+                      <img src="../../../../../assets/media/rate/twoStars.png">
+                    </em>
+                    <em class="rate" *ngIf="rowData[col.field] === 3">
+                      {{ col.extraData?.threeStars | translate }}
+                      <img src="../../../../../assets/media/rate/threeStars.png">
+                    </em>
+                    <em class="rate" *ngIf="rowData[col.field] === 4">
+                      {{ col.extraData?.threeStars | translate }}
+                      <img src="../../../../../assets/media/rate/fourStars.png">
+                    </em>
+                    <em class="rate" *ngIf="rowData[col.field] === 5">
+                      {{ col.extraData?.threeStars | translate }}
+                      <img src="../../../../../assets/media/rate/fiveStars.png">
+                    </em>
+                  </span>
+
+                <!-- Date template -->
+                <span *ngSwitchCase="TableHeaderType.Date">
+                  {{ rowData[col.field] | date: 'medium' }}
+                </span>
+
+                <!-- Approval State -->
+                <span *ngSwitchCase="TableHeaderType.ApprovalState">
+                  <em class="approved-chip" *ngIf="rowData[col.field]">
+                    {{ col.extraData?.approvedLabel | translate }}</em
+                  >
+                  <em
+                    class="approved-chip reject"
+                    *ngIf="rowData[col.field] === false">
+                    {{ col.extraData?.rejectedLabel | translate }}</em
+                  >
+                </span>
+
+                <!-- Image -->
+                <span *ngSwitchCase="TableHeaderType.Image">
+                  <img *ngIf="rowData[col.field]" [src]="domainUrl+rowData[col.field]" alt="">
+                </span>
+
+                <!-- Boolean -->
+                <span *ngSwitchCase="TableHeaderType.Boolean">
+                  <span *ngIf="rowData[col.field] === true">{{ 'true'   | translate}}</span>
+                 <span *ngIf="rowData[col.field] === false">{{ 'false'   | translate}}</span>
+                </span>
+                <span *ngSwitchDefault> {{ rowData[col.field] }}</span>
+              </div>
+            </td>
+
+            <!-- Actions Buttons -->
+            <td *ngIf="actions.length" class="action-cell action">
+              <ng-container *ngFor="let action of actions">
+                <button
+                  (click)="onTakeAction(action, rowData)"
+                  type="button"
+                  [ngClass]="{
+                   'btn btn-outline-primary': true,
+                  'v-hidden': !((action.visible || action.visible === undefined) &&
+                  rowData[action.state?.['checkingFelid']] === action.state?.['showIf'] ||
+                  action.state === undefined)
+                }">
+                  <em>{{ action.label! | translate }}</em>
+                  <i *ngIf="action.iconClass == 'toggle'"
+                  [ngClass]="rowData.isActive ? 'fa fa-toggle-on' : 'fa fa-toggle-off'">
+                  </i>
+                  <i *ngIf="action.iconClass != 'toggle'" [class]="action.iconClass"></i>
+                </button>
+              </ng-container>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </ng-container>
+  </div>
+</div>

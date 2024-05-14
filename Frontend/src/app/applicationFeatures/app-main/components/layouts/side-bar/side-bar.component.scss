@@ -1,0 +1,72 @@
+::ng-deep{
+    .menu {
+        .icon-img {
+            width: 22px;
+            height: 22px;
+        }
+        padding: 10px;
+        .profile-nav {
+            border-bottom: 1px solid #f2f2f2;
+            img{
+                width: 40px;
+                height: 40px;
+                margin-bottom: 26px;
+            }
+            a{display: none;
+            }}
+    }
+    &.active {
+        .profile-nav {
+            text-align: center;
+            img{
+                margin-bottom: 20px;
+                width: 80px;
+                height: 80px;
+            }
+            a{
+                display: block;
+                color: #1f3f6c;
+                font-weight: 700;
+                font-size: 17px;
+                margin-bottom: 30px !important;
+            }
+    }
+    }
+    .nested-menu{
+        &.active {
+            a{
+                box-shadow: 0px 0px 5px #CBE4FA;
+                border-radius: 10px;
+                background-color: #CBE4FA;
+                padding: 12px 10px;
+                font-weight: 700;
+               color: #1a406d;
+            }
+        }
+    }
+}
+
+.menu .profile-nav a,p {
+
+    display: none;
+}
+.active .profile-nav a {
+    display: block;
+    color: #1f3f6c;
+    font-weight: 700;
+    font-size: 17px;
+    margin-bottom: 0px !important;
+}
+.active .profile-nav p{
+    display: block;
+    margin-bottom: 30px !important;
+
+}
+.menu a span.ico {
+    display: contents;
+}
+
+.profile-nav a{
+   font-family: 'corben';
+}
+

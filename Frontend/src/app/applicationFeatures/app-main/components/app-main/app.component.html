@@ -1,0 +1,24 @@
+<div class="app" [dir]="languageService.getLanguage === 'ar' ? 'rtl' : 'ltr'">
+  <div *ngIf="currentUser != null">
+    <button (click)="goTop()" id="GoTop" title="Go to top">
+      <i class="fas fa-chevron-up"></i>
+    </button>
+    <div class="wrapper">
+      <!-- Sidebar  -->
+
+      <app-side-bar></app-side-bar>
+      <app-nav-bar></app-nav-bar>
+
+      <div HotelReservationRtl id="main-wrapper" class="main-wrapper">
+        <div class=""></div>
+        <div class="">
+          <app-main-content></app-main-content>
+        </div>
+        <app-footer></app-footer>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="currentUser == null">
+    <router-outlet></router-outlet>
+  </div>
+</div>

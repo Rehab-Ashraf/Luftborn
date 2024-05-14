@@ -1,0 +1,85 @@
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@17/build/css/intlTelInput.css">
+
+<section  HotelReservationRtl class="login">
+  <div class="login-content">
+
+    <div class="container-fluid">
+      <div class="row login-side">
+                <div class="col-md-12 mx-auto">
+          <div class="login-side">
+            <div  class="col-md-6">
+              <div  class="text-center">
+                <img  src="../../../../../assets/media/reception.png" alt="" width="270">
+                <p  class="text-white mt-2">An Elite  Hotel Reservation Experience</p>
+              </div>
+            </div>
+            <div  class="col-md-6">
+            <div class="form-login">
+              <div class="login-box">
+              <form [formGroup]="signupForm" (keyup.enter)="submit()">
+
+                <div class="mb-3">
+                  <input type="text" class="form-control" formControlName="name" placeholder="{{'shared.fullname'|translate}}" />
+                  <app-control-error-display [control]="getControl('name')">
+                  </app-control-error-display>
+                </div>
+                <div class="mb-3">
+                  <ngx-intl-tel-input [cssClass]="'cusrtom'" [enableAutoCountrySelect]="true" [enablePlaceholder]="true"
+                    [searchCountryFlag]="true" [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+                    [selectFirstCountry]="false" [maxLength]="15"
+                    [phoneValidation]="true" [separateDialCode]="true" name="phoneNumber" formControlName="phoneNumber">
+                  </ngx-intl-tel-input>
+                  <app-control-error-display [control]="getControl('phoneNumber')">
+                  </app-control-error-display>
+                </div>
+                <div class="mb-3">
+                  <input type="email" class="form-control" formControlName="email" placeholder="{{'shared.email'|translate}}" />
+                  <app-control-error-display [control]="getControl('email')">
+                  </app-control-error-display>
+                </div>
+
+                <div class="mb-3">
+                  <div class="position-relative">
+                    <input [type]="hidePassword ? 'password' : 'text'" formControlName="password" class="form-control" id="loginPassword" placeholder="{{'shared.password'|translate}}" />
+                    <span (click)="hidePasswordIcon()" class="show-pass">
+                      <div *ngFor="let i of ChangeDetictionForceUpdateVar">
+                        <i [ngClass]="hidePassword ?'fa fa-eye':'fa fa-eye-slash '"></i>
+                      </div>
+                    </span>
+                  </div>
+                  <app-control-error-display [control]="getControl('password')">
+                  </app-control-error-display>
+                </div>
+                <div class="mb-3">
+
+                  <div class="position-relative">
+                    <input [type]="hidePassword ? 'password' : 'text'" formControlName="confirmpassword" class="form-control" placeholder="{{'shared.confirmPassword'|translate}}" />
+                    <span (click)="hidePasswordIcon()" class="show-pass">
+                      <div *ngFor="let i of ChangeDetictionForceUpdateVar">
+                        <i [ngClass]="hidePassword ?'fa fa-eye':'fa fa-eye-slash '"></i>
+                      </div>
+                    </span>
+                  </div>
+                  <app-control-error-display [control]="getControl('confirmpassword')">
+                  </app-control-error-display>
+                </div>
+                <div class="col-12 text-end">
+                  <button type="button" (click)="submit()" class="btn">{{"signup.Title"| translate }}</button>
+                </div>
+                <br>
+                <p class=" join">
+                  {{"User.registed"| translate }}
+                  <a routerLink="/login">{{"User.login"| translate }}</a>
+                </p>
+              </form>
+            </div> </div>
+          </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
